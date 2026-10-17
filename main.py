@@ -15,6 +15,9 @@ class Customer(BaseModel):
     loan_amount: float = Field(ge=0)
     existing_monthly_emi: float = Field(ge=0)
 
+class Workout(BaseException):
+    dist_km: float
+    dist_min: float
 
 @app.post("/risk-score")
 def risk_score(customer: Customer):
@@ -39,4 +42,15 @@ def risk_score(customer: Customer):
             emi_to_income, 2
         ),
         "assessment": assessment,
+    }
+
+@app.get("/workout")
+def calc_pace(workout: Workout):
+    pace = workout.dist_min/workout.dist_km
+
+    return
+    {
+        "Distance" : workout.dist_km,
+        "Minutes" :  workout.dist_min,
+        "Pace" : pace
     }
